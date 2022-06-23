@@ -50,6 +50,7 @@ describe('Persistent Node Chat Server', () => {
           if (err) {
             throw err;
           }
+console.log('Results ', results);
           // Should have one result:
           expect(results.length).toEqual(1);
 
