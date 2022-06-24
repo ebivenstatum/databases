@@ -3,22 +3,19 @@ const mysql = require('mysql2');
 
 module.exports = {
   getAll: function () {}, // a function which produces all the messages
-  create: function (message, callback) {
+  create: function (message, username, roomname, callback) {
 
-    //db.query('insert into users (id, username) values (1, "llll")'); // for testing purposes
-    //db.query('insert into rooms (id, roomname) values (1, "New Room")'); // for testing purposes
+    var userID = db.query(`SELECT id FROM users WHERE username = ${username})`);
 
-    var userId = db.query(`SELECT id FROM users WHERE username = "${message.username}"`);
-    var roomId = db.query(`SELECT id FROM rooms WHERE roomname = "${message.roomname}"`);
+    var roomID = db.query(`SELECT id FROM rooms WHERE EXISTS roomname = ${roomname}`);
 
-    let queryString = `insert into messages (text, user_id, room_id) values (${message.message}, ${userId}, ${roomId})`;
-    let queryArgs = [];
+    let queryString = `INSERT INTO messages (user_id, input, room_id) VALUES (${userID}, "${message}", ${roomID})`;
 
-    db.query(queryString, queryArgs, (err) => {
+    db.query(queryString, (err, data) => {
       if (err) {
-        callback(err);
+        callback(err, message);
       } else {
-        callback(null);
+        callback(null, "db: success");
       }
 
     });
