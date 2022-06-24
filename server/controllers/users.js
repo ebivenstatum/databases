@@ -14,7 +14,7 @@ module.exports = {
     models.users.create(req.body["username"], (err,data) => {
       if (err) {
         res.writeHead(404, defaultCorsHeaders);
-        res.end('Error! ' + JSON.stringify(data));
+        res.end('Error!');
       } else {
         res.writeHead(201, defaultCorsHeaders);
         res.end('User Added');

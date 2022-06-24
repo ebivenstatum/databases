@@ -5,15 +5,14 @@ module.exports = {
   getAll: function () {}, // a function which produces all the messages
   create: function (message, username, roomname, callback) {
 
-    var userID = db.query(`SELECT id FROM users WHERE username = ${username})`);
+    // FINDING OBJECT AND NOT A NUMBER
+    var userID = db.query(`SELECT id FROM users WHERE username = "${username}"`);
 
-    var roomID = db.query(`SELECT id FROM rooms WHERE EXISTS roomname = ${roomname}`);
-
-    let queryString = `INSERT INTO messages (user_id, input, room_id) VALUES (${userID}, "${message}", ${roomID})`;
+    let queryString = `INSERT INTO messages (user_id, input, roomname) VALUES (${userID}, "${message}", "${roomname}")`;
 
     db.query(queryString, (err, data) => {
       if (err) {
-        callback(err, message);
+        callback(err, Object.values(queryString));
       } else {
         callback(null, "db: success");
       }

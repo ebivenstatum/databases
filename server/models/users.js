@@ -5,7 +5,7 @@ module.exports = {
   getAll: function () {},
   create: function (username, callback) {
 
-  let queryString = `INSERT INTO users (username) values ("${username}")`
+  let queryString = `INSERT INTO users (username) VALUES ("${username}")`;
 
   db.query(queryString, (err, data) => {
     if (err) {
