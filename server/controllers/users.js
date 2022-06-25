@@ -8,7 +8,20 @@ var defaultCorsHeaders = {
 };
 
 module.exports = {
-  get: function (req, res) {},
+  get: function (req, res) {
+
+    models.users.getAll(req.body, (err, data) => {
+      if (err) {
+        res.writeHead(404, defaultCorsHeaders);
+        res.end('Error!');
+      } else {
+        res.writeHead(201, defaultCorsHeaders);
+        res.end(JSON.stringify(data));
+      }
+
+    });
+
+  },
   post: function (req, res) {
 
     models.users.create(req.body["username"], (err,data) => {

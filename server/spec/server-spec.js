@@ -66,7 +66,10 @@ console.log('Results ', results);
 
   it('Should output all messages from the DB', (done) => {
     // Let's insert a message into the db
-       const queryString = 'SELECT messages.input, rooms.roomname FROM messages INNER JOIN rooms ON messages.room_id = rooms.id';
+    const username = 'Valjean';
+    const message = 'In mercy\'s name, three days is all I need.';
+    const roomname = 'Hello';
+       const queryString = 'SELECT * FROM messages';
        const queryArgs = [];
     /* TODO: The exact query string and query args to use here
      * depend on the schema you design, so I'll leave them up to you. */
@@ -79,7 +82,7 @@ console.log('Results ', results);
       axios.get(`${API_URL}/messages`)
         .then((response) => {
           const messageLog = response.data;
-          expect(messageLog[0].text).toEqual(message);
+          expect(messageLog[0].input).toEqual(message);
           expect(messageLog[0].roomname).toEqual(roomname);
           done();
         })

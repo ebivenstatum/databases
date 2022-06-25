@@ -11,6 +11,17 @@ module.exports = {
 
   get: function (req, res) {
 
+    models.messages.getAll(req.body, (err, data) => {
+      if (err) {
+        res.writeHead(404, defaultCorsHeaders);
+        res.end('Error!');
+      } else {
+        res.writeHead(201, defaultCorsHeaders);
+        res.end(JSON.stringify(data));
+      }
+
+    });
+
   }, // a function which handles a get request for all messages
   post: function (req, res) {
 
@@ -19,7 +30,7 @@ module.exports = {
 
       if (err) {
         res.writeHead(404, defaultCorsHeaders);
-        res.end('Error!' + JSON.stringify(data));
+        res.end('Error!');
       } else {
         res.writeHead(201, defaultCorsHeaders);
         res.end('Posted');
