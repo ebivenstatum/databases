@@ -1,16 +1,24 @@
 var models = require('../models');
-var defaultCorsHeaders = {
+/*var defaultCorsHeaders = {
   'access-control-allow-origin': '*',
   'access-control-allow-methods': 'GET, POST, PUT, DELETE, OPTIONS',
   'access-control-allow-headers': 'content-type, accept, authorization',
   'access-control-max-age': 10, // Seconds.
   'Content-Type': 'application/json'
-};
+};*/
 
 module.exports = {
-  get: function (req, res) {
+  get: async function (req, res) {
 
-    models.users.getAll(req.body, (err, data) => {
+    try {
+      var result = await models.users.User.findAll();
+      res.send(JSON.stringify(result));
+    } catch(err) {
+      console.log(err);
+      res.sendStatus(404);
+    }
+
+    /*models.users.getAll(req.body, (err, data) => {
       if (err) {
         res.writeHead(404, defaultCorsHeaders);
         res.end('Error!');
@@ -19,12 +27,20 @@ module.exports = {
         res.end(JSON.stringify(data));
       }
 
-    });
+    });*/
 
   },
-  post: function (req, res) {
+  post: async function (req, res) {
 
-    models.users.create(req.body["username"], (err,data) => {
+    try {
+      var result = await models.users.User.create(req.body);
+      res.sendStatus(200)
+    } catch(err) {
+      console.log(err);
+      res.sendStatus(404);
+    }
+
+    /*models.users.create(req.body["username"], (err,data) => {
       if (err) {
         res.writeHead(404, defaultCorsHeaders);
         res.end('Error!');
@@ -33,6 +49,6 @@ module.exports = {
         res.end('User Added');
       }
 
-    });
+    });*/
   }
 };

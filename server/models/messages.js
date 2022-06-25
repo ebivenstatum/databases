@@ -4,12 +4,12 @@ const mysql = require('mysql2');
 var Sequelize = require('sequelize');
 
 var db = new Sequelize('chat', 'root', '', {
-  host: 'localhost:3000',
+  host: 'localhost',
   dialect: 'mysql'
 });
 
 var User = db.define('User', {
-  user_id: {
+  id: {
     type: Sequelize.INTEGER,
     autoIncrement: true,
     primaryKey: true
@@ -19,18 +19,25 @@ var User = db.define('User', {
 
 var Message = db.define('Message', {
   message_id: {
-    type: Sequelize.INTEGER,  autoIncrement: true,
+    type: Sequelize.INTEGER,
+    autoIncrement: true,
     primaryKey: true
 },
   username: Sequelize.STRING,
-  userid: Sequelize.INTEGER,
+  user_id: {
+    type: Sequelize.INTEGER,
+    foreignKey: true
+    },
   input: Sequelize.STRING,
-  roomname: Sequelize.STRING
+  roomname: Sequelize.STRING,
+  room_id: Sequelize.INTEGER,
 });
 
 module.exports = {
-  getAll: function (req, callback) {
-    let queryString = 'SELECT * FROM messages';
+  User: User,
+  Message: Message,
+  /*getAll: function (req, callback) {
+    /*let queryString = 'SELECT * FROM messages';
 
     db.query(queryString, (err, data) => {
       if (err) {
@@ -39,9 +46,9 @@ module.exports = {
         callback(null, data);
       }
 
-    });
+    });*/
 
-  }, // a function which produces all the messages
+ /*}, // a function which produces all the messages
   create: function (message, username, roomname, callback) {
 
     // FINDING OBJECT AND NOT A NUMBER
@@ -71,6 +78,6 @@ module.exports = {
 
     });*/
 
-  } // a function which can be used to insert a message into the database
+ // } // a function which can be used to insert a message into the database
 
 };
